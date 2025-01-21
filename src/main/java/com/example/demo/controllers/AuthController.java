@@ -14,7 +14,7 @@ import services.AuthService;
 
 @Controller
 public class AuthController {
-	private AuthService authService;
+	private AuthService authService = new AuthService();
 	
 	@GetMapping("/signup")
 	public String getSignUpPage() {
@@ -31,7 +31,9 @@ public class AuthController {
 		if(authService.attemptLogin(loginRequest)){
 			return ResponseEntity.ok(new LoginResponse("Login successful!", "Token"));
 		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+		else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+		}
 	}
 
 }
