@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import helpers.LoginRequest;
 import helpers.LoginResponse;
+import helpers.SignupRequest;
+import helpers.SignupResponse;
 import services.AuthService;
 
 @Controller
@@ -33,6 +35,17 @@ public class AuthController {
 		}
 		else {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+		}
+	}
+	
+	@PostMapping("/signup")
+	public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest) {
+		SignupResponse response = authService.attemptSignup(signupRequest);
+		if(response.getSuccess()){
+			return ResponseEntity.ok().body(response.getMessage());
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response.getMessage());
 		}
 	}
 
